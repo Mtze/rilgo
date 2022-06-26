@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  description: "" 
+  version: "0.0.1"
+  title: "RILGO"
+
+
+
+paths:
+  /article:
+    post: 
+      summary: "Save a new article in the database"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Article'
+      responses:
+        "201":
+          description: Created
+
+    get: 
+      summary: "Get all articles"
+      responses:
+        "200":
+          description: "Article added successfully"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Article"
+  /article/{id}:
+    get:
+      summary: "Get article with id"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            $ref: "#/components/schemas/ID"
+      responses:
+        '200':
+          description: "Article with id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        '404':
+          description: "No article with id in database!"
+    delete:
+      summary: "Delete Article with id"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            $ref: "#/components/schemas/ID"
+      responses:
+        '200':
+          description: "Deleted article with id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        '404':
+          description: "No article with id in database!"
+      
+
+
+components:
+  schemas:
+    ID: 
+      type: object
+      properties: 
+        id: 
+          type: integer
+          format: int64
+          
+    Article:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 4
+          readOnly: true
+        title:
+          type: string
+          example: "How to write an API - exampleblog.com"
+        url:
+          type: string
+          example: "https://exampleblog.com/article/1"
+        dateAdded: 
+          type: string
+          format: date-time
+      required:  
+        - id
+        - title
+
+
